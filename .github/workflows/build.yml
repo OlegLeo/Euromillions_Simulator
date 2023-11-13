@@ -19,10 +19,16 @@ jobs:
       matrix:
         node-version: [16]  # Specify Node.js version
     steps:
+      - name: Clear Node.js cache
+        run: |
+          rm -rf ~/.npm
+          rm -rf ~/.cache
+
       - name: Checkout Code
         uses: actions/checkout@v2
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+          node-version: 16
 
       - name: Set up Node.js
         uses: actions/setup-node@v4
