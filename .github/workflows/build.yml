@@ -28,10 +28,13 @@ jobs:
         run: |
           echo "SonarQube URL: ${{ secrets.SONAR_HOST_URL }}"
           echo "SonarQube Token: ${{ secrets.SONAR_TOKEN }}"
+          ping -c 5 ${{ secrets.SONAR_HOST_URL }}
 
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_SCANNER_OPTS: -X
+
 
