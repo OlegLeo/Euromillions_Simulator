@@ -19,22 +19,11 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 16
-
-      - name: Debug SonarQube Configuration
-        run: |
-          echo "SonarQube URL: ${{ secrets.SONAR_HOST_URL }}"
-          echo "SonarQube Token: ${{ secrets.SONAR_TOKEN }}"
-          docker ps
-          docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' 111f88f844ba
-          docker port 111f88f844ba
-
       - name: SonarQube Scan
         uses: sonarsource/sonarqube-scan-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
+          SONAR_SCANNER_CLI_OPTS: "-Dsonar.host.url=http://sonarqube:9000"  # Replace 'sonarqube' with your container name
+
 
